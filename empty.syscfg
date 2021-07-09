@@ -1,0 +1,78 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --board "/ti/boards/CC1352R1_LAUNCHXL" --product "simplelink_cc13x2_26x2_sdk@4.40.04.04"
+ * @versions {"data":"2021010520","timestamp":"2021010520","tool":"1.7.0+1746","templates":null}
+ */
+const bp_BPBASSENSORSMKII = scripting.addHardware("/ti/boards/boosterpacks/BP-BASSENSORSMKII");
+
+/**
+ * Import the modules used in this configuration.
+ */
+const GPIO  = scripting.addModule("/ti/drivers/GPIO");
+const GPIO1 = GPIO.addInstance();
+const GPIO2 = GPIO.addInstance();
+const GPIO3 = GPIO.addInstance();
+const GPIO4 = GPIO.addInstance();
+const GPIO5 = GPIO.addInstance();
+const I2C   = scripting.addModule("/ti/drivers/I2C", {}, false);
+const I2C1  = I2C.addInstance();
+const RTOS  = scripting.addModule("/ti/drivers/RTOS");
+const UART  = scripting.addModule("/ti/drivers/UART", {}, false);
+const UART1 = UART.addInstance();
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+GPIO1.$hardware         = system.deviceData.board.components.LED_RED;
+GPIO1.$name             = "CONFIG_GPIO_LED_0";
+GPIO1.pinInstance.$name = "CONFIG_PIN_0";
+
+GPIO2.$hardware         = bp_BPBASSENSORSMKII.components.HDC2080.subComponents.ALERT;
+GPIO2.$name             = "CONFIG_GPIO_HDC2080_INTERRUPT";
+GPIO2.pull              = "Pull Up";
+GPIO2.interruptTrigger  = "Falling Edge";
+GPIO2.pinInstance.$name = "CONFIG_PIN_5";
+
+GPIO3.$hardware         = bp_BPBASSENSORSMKII.components.HDC2080.subComponents.POWER;
+GPIO3.$name             = "CONFIG_GPIO_HDC2080_POWER";
+GPIO3.pinInstance.$name = "CONFIG_PIN_6";
+
+GPIO4.$hardware         = bp_BPBASSENSORSMKII.components.OPT3001.subComponents.ALERT;
+GPIO4.$name             = "CONFIG_GPIO_OPT3001_INTERRUPT";
+GPIO4.interruptTrigger  = "Falling Edge";
+GPIO4.pinInstance.$name = "CONFIG_PIN_7";
+
+GPIO5.$hardware         = bp_BPBASSENSORSMKII.components.OPT3001.subComponents.POWER;
+GPIO5.$name             = "CONFIG_GPIO_OPT3001_POWER";
+GPIO5.pinInstance.$name = "CONFIG_PIN_8";
+
+I2C1.$hardware            = bp_BPBASSENSORSMKII.components.BP_BASSENSORSMKII_I2C;
+I2C1.$name                = "CONFIG_I2C_SENSORS";
+I2C1.sdaPinInstance.$name = "CONFIG_PIN_3";
+I2C1.clkPinInstance.$name = "CONFIG_PIN_4";
+
+const CCFG              = scripting.addModule("/ti/devices/CCFG", {}, false);
+CCFG.ccfgTemplate.$name = "ti_devices_CCFGTemplate0";
+
+UART1.$name               = "CONFIG_UART_0";
+UART1.$hardware           = system.deviceData.board.components.XDS110UART;
+UART1.txPinInstance.$name = "CONFIG_PIN_1";
+UART1.rxPinInstance.$name = "CONFIG_PIN_2";
+
+/**
+ * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
+ * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
+ * re-solve from scratch.
+ */
+GPIO1.gpioPin.$suggestSolution    = "boosterpack.39";
+GPIO2.gpioPin.$suggestSolution    = "boosterpack.23";
+GPIO3.gpioPin.$suggestSolution    = "boosterpack.6";
+GPIO4.gpioPin.$suggestSolution    = "boosterpack.25";
+GPIO5.gpioPin.$suggestSolution    = "boosterpack.27";
+I2C1.i2c.$suggestSolution         = "I2C0";
+I2C1.i2c.sdaPin.$suggestSolution  = "boosterpack.10";
+I2C1.i2c.sclPin.$suggestSolution  = "boosterpack.9";
+UART1.uart.$suggestSolution       = "UART0";
+UART1.uart.txPin.$suggestSolution = "boosterpack.4";
+UART1.uart.rxPin.$suggestSolution = "boosterpack.3";
